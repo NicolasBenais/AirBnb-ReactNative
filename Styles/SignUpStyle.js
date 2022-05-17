@@ -37,6 +37,15 @@ const styles = {
     height: 40,
   },
 
+  passwordView: {
+    position: "relative",
+  },
+  eyeo: {
+    position: "absolute",
+    right: 8,
+    top: 10,
+  },
+
   bottomContainer: {
     marginBottom: 60,
     alignItems: "center",

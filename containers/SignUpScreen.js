@@ -13,6 +13,7 @@ import {
   ScrollView,
 } from "react-native";
 import axios from "axios";
+import { AntDesign } from "@expo/vector-icons";
 import { StatusBar } from "expo-status-bar";
 
 import styles from "../Styles/SignUpStyle";
@@ -26,6 +27,9 @@ export default function SignUpScreen({ setToken }) {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [fieldsError, setFieldsError] = useState("");
+  const [visiblePasswordInput, setVisiblePasswordInput] = useState(false);
+  const [visibleConfirmPasswordInput, setVisibleConfirmPasswordInput] =
+    useState(false);
 
   const handleSubmit = async () => {
     setFieldsError("");
@@ -116,25 +120,46 @@ export default function SignUpScreen({ setToken }) {
               }}
             />
 
-            <TextInput
-              style={styles.input}
-              placeholder="password"
-              placeholderTextColor="grey"
-              secureTextEntry={true}
-              onChangeText={(text) => {
-                setPassword(text);
-              }}
-            />
-
-            <TextInput
-              style={styles.input}
-              placeholder="confirm password"
-              placeholderTextColor="grey"
-              secureTextEntry={true}
-              onChangeText={(text) => {
-                setConfirmPassword(text);
-              }}
-            />
+            <View style={styles.passwordView}>
+              <TextInput
+                style={styles.input}
+                placeholder="password"
+                placeholderTextColor="grey"
+                secureTextEntry={!visiblePasswordInput}
+                onChangeText={(text) => {
+                  setPassword(text);
+                }}
+              />
+              <AntDesign
+                style={styles.eyeo}
+                name={visiblePasswordInput ? "eye" : "eyeo"}
+                size={24}
+                color="grey"
+                onPress={() => {
+                  setVisiblePasswordInput(!visiblePasswordInput);
+                }}
+              />
+            </View>
+            <View style={styles.passwordView}>
+              <TextInput
+                style={styles.input}
+                placeholder="confirm password"
+                placeholderTextColor="grey"
+                secureTextEntry={!visibleConfirmPasswordInput}
+                onChangeText={(text) => {
+                  setConfirmPassword(text);
+                }}
+              />
+              <AntDesign
+                style={styles.eyeo}
+                name={visibleConfirmPasswordInput ? "eye" : "eyeo"}
+                size={24}
+                color="grey"
+                onPress={() => {
+                  setVisibleConfirmPasswordInput(!visibleConfirmPasswordInput);
+                }}
+              />
+            </View>
           </View>
           <View style={styles.bottomContainer}>
             <Text style={styles.errorMessage}>{fieldsError}</Text>

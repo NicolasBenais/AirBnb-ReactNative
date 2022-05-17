@@ -3,15 +3,8 @@ import { useState } from "react";
 import Constants from "expo-constants";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
-import {
-  Text,
-  TextInput,
-  View,
-  TouchableOpacity,
-  SafeAreaView,
-  Image,
-  Dimensions,
-} from "react-native";
+import { Text, TextInput, View, TouchableOpacity, Image } from "react-native";
+import { AntDesign } from "@expo/vector-icons";
 import axios from "axios";
 import { StatusBar } from "expo-status-bar";
 
@@ -23,7 +16,7 @@ export default function SignInScreen({ setToken }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [fieldsError, setFieldsError] = useState("");
-  const [visibleInput, setVisibleInput] = useState(false);
+  const [visiblePasswordInput, setVisiblePasswordInput] = useState(false);
 
   const handleSubmit = async () => {
     setFieldsError("");
@@ -76,16 +69,27 @@ export default function SignInScreen({ setToken }) {
                 setEmail(text);
               }}
             />
-            <TextInput
-              style={styles.input}
-              placeholder="password"
-              placeholderTextColor="grey"
-              secureTextEntry={true}
-              value={password}
-              onChangeText={(text) => {
-                setPassword(text);
-              }}
-            />
+            <View style={styles.passwordView}>
+              <TextInput
+                style={styles.input}
+                placeholder="password"
+                placeholderTextColor="grey"
+                secureTextEntry={!visiblePasswordInput}
+                value={password}
+                onChangeText={(text) => {
+                  setPassword(text);
+                }}
+              />
+              <AntDesign
+                style={styles.eyeo}
+                name={visiblePasswordInput ? "eye" : "eyeo"}
+                size={24}
+                color="grey"
+                onPress={() => {
+                  setVisiblePasswordInput(!visiblePasswordInput);
+                }}
+              />
+            </View>
           </View>
           <View style={styles.bottomContainer}>
             <Text style={styles.errorMessage}>{fieldsError}</Text>
