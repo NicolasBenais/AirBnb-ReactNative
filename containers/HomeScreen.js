@@ -12,6 +12,8 @@ import axios from "axios";
 
 import { AntDesign } from "@expo/vector-icons";
 
+import Rate from "../components/Rate";
+
 // STYLE
 import styles from "../Styles/Home";
 
@@ -63,31 +65,7 @@ export default function HomeScreen() {
                   </Text>
                   <View style={styles.rates}>
                     <View style={styles.starsRates}>
-                      <AntDesign
-                        name="star"
-                        size={16}
-                        color={item.ratingValue > 0 ? "gold" : "lightgrey"}
-                      />
-                      <AntDesign
-                        name="star"
-                        size={16}
-                        color={item.ratingValue > 1 ? "gold" : "lightgrey"}
-                      />
-                      <AntDesign
-                        name="star"
-                        size={16}
-                        color={item.ratingValue > 2 ? "gold" : "lightgrey"}
-                      />
-                      <AntDesign
-                        name="star"
-                        size={16}
-                        color={item.ratingValue > 3 ? "gold" : "lightgrey"}
-                      />
-                      <AntDesign
-                        name="star"
-                        size={16}
-                        color={item.ratingValue > 4 ? "gold" : "lightgrey"}
-                      />
+                      <Rate data={item} />
                     </View>
                     <Text style={styles.reviews}>{item.reviews} reviews</Text>
                   </View>

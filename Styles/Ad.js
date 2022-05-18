@@ -1,35 +1,13 @@
 const styles = {
-  main: {
-    paddingTop: 8,
-    paddingBottom: 8,
-    paddingRight: 16,
-    paddingLeft: 16,
-    backgroundColor: "white",
-    borderTopWidth: 1,
-    borderColor: "lightgrey",
-  },
-
   container: {
-    borderBottomWidth: 1,
-    borderColor: "lightgrey",
-    marginBottom: 20,
-  },
-
-  topContainer: {
-    width: "100%",
-  },
-
-  containerImg: {
-    width: "100%",
-    height: 180,
-    position: "relative",
+    backgroundColor: "white",
   },
 
   price: {
     position: "absolute",
     bottom: 8,
-    width: "27%",
-    height: "26%",
+    width: "24%",
+    height: "16%",
     backgroundColor: "black",
     color: "white",
     textAlign: "center",
@@ -38,20 +16,23 @@ const styles = {
     paddingTop: 10,
   },
 
+  informations: {
+    padding: 12,
+  },
+
   bottomContainer: {
     width: "100%",
     flexDirection: "row",
     justifyContent: "space-between",
-    paddingTop: 8,
-    paddingBottom: 8,
+    alignItems: "center",
   },
 
   bottomLeftContainer: {
     width: "76%",
   },
 
-  titleContainer: {
-    fontSize: 16,
+  title: {
+    fontSize: 18,
     fontWeight: "500",
   },
 
@@ -75,6 +56,11 @@ const styles = {
     borderRadius: 99,
     width: 80,
     height: 80,
+  },
+
+  description: {
+    marginTop: 12,
+    lineHeight: 20,
   },
 };
 
