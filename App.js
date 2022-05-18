@@ -10,9 +10,20 @@ import SignInScreen from "./containers/SignInScreen";
 import SignUpScreen from "./containers/SignUpScreen";
 import SettingsScreen from "./containers/SettingsScreen";
 import SplashScreen from "./containers/SplashScreen";
+import AdScreen from "./containers/AdScreen";
+import { Image } from "react-native";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
+
+const LogoTitle = () => {
+  return (
+    <Image
+      style={{ height: 50, width: 50, margin: -8 }}
+      source={require("./assets/logo.png")}
+    />
+  );
+};
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -73,6 +84,7 @@ export default function App() {
                   tabBarInactiveTintColor: "gray",
                 }}
               >
+                {/* HOME TAB */}
                 <Tab.Screen
                   name="TabHome"
                   options={{
@@ -84,17 +96,27 @@ export default function App() {
                 >
                   {() => (
                     <Stack.Navigator>
+                      {/* HOME SCREEN */}
                       <Stack.Screen
                         name="Home"
                         options={{
-                          title: "My App",
-                          headerStyle: { backgroundColor: "red" },
-                          headerTitleStyle: { color: "white" },
+                          headerTitle: (props) => <LogoTitle {...props} />,
                         }}
                       >
                         {() => <HomeScreen />}
                       </Stack.Screen>
 
+                      {/* AD SCREEN */}
+                      <Stack.Screen
+                        name="Ad"
+                        options={{
+                          headerTitle: (props) => <LogoTitle {...props} />,
+                        }}
+                      >
+                        {() => <AdScreen />}
+                      </Stack.Screen>
+
+                      {/* PROFILE SCREEN */}
                       <Stack.Screen
                         name="Profile"
                         options={{
@@ -106,6 +128,8 @@ export default function App() {
                     </Stack.Navigator>
                   )}
                 </Tab.Screen>
+
+                {/* SETTINGS TAB */}
                 <Tab.Screen
                   name="TabSettings"
                   options={{
