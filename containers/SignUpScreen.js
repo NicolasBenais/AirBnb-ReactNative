@@ -1,26 +1,20 @@
-import { useNavigation } from "@react-navigation/core";
-import { useState } from "react";
-import Constants from "expo-constants";
+import { Text, TextInput, View, TouchableOpacity, Image } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-
-import {
-  Text,
-  TextInput,
-  View,
-  TouchableOpacity,
-  SafeAreaView,
-  Image,
-  ScrollView,
-} from "react-native";
-import axios from "axios";
-import { AntDesign } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/core";
 import { StatusBar } from "expo-status-bar";
+import { AntDesign } from "@expo/vector-icons";
+import Constants from "expo-constants";
 
+import axios from "axios";
+import { useState } from "react";
+
+// STYLE
 import styles from "../Styles/SignUpStyle";
 
 export default function SignUpScreen({ setToken }) {
   const navigation = useNavigation();
 
+  // FORM STATE
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [description, setDescription] = useState("");
@@ -55,7 +49,7 @@ export default function SignUpScreen({ setToken }) {
             password,
           }
         );
-        console.log("response:", response.data);
+
         setToken(response.token);
       } catch (error) {
         if (error.message === "Request failed with status code 401") {
@@ -70,20 +64,26 @@ export default function SignUpScreen({ setToken }) {
   };
 
   return (
+    // GENERAL CONTAINER
     <KeyboardAwareScrollView
       style={{
         backgroundColor: "white",
       }}
     >
+      <StatusBar style="dark" />
+
       <View>
-        <StatusBar style="dark" />
-        {/* <ScrollView> */}
+        {/* MAIN CONTAINER */}
         <View style={styles.container}>
+          {/* HEADER */}
           <View style={styles.header}>
             <Image style={styles.logo} source={require("../assets/logo.png")} />
             <Text style={styles.h1}>Sign Up</Text>
           </View>
+
+          {/* FORM */}
           <View style={styles.form}>
+            {/* Email input */}
             <TextInput
               style={styles.input}
               placeholder="email"
@@ -94,6 +94,7 @@ export default function SignUpScreen({ setToken }) {
               }}
             />
 
+            {/* Username input */}
             <TextInput
               style={styles.input}
               placeholder="username"
@@ -103,6 +104,7 @@ export default function SignUpScreen({ setToken }) {
               }}
             />
 
+            {/* Description input */}
             <TextInput
               style={{
                 borderWidth: 2,
@@ -120,6 +122,7 @@ export default function SignUpScreen({ setToken }) {
               }}
             />
 
+            {/* Password input */}
             <View style={styles.passwordView}>
               <TextInput
                 style={styles.input}
@@ -140,6 +143,8 @@ export default function SignUpScreen({ setToken }) {
                 }}
               />
             </View>
+
+            {/* Confirm password input */}
             <View style={styles.passwordView}>
               <TextInput
                 style={styles.input}
@@ -161,14 +166,19 @@ export default function SignUpScreen({ setToken }) {
               />
             </View>
           </View>
+
+          {/* BOTOM CONTAINER */}
           <View style={styles.bottomContainer}>
+            {/* Error messages */}
             <Text style={styles.errorMessage}>{fieldsError}</Text>
+            {/* Submit button */}
             <TouchableOpacity
               style={styles.submitButton}
               onPress={handleSubmit}
             >
               <Text>Sign Up</Text>
             </TouchableOpacity>
+            {/* To navigate to the signin screen */}
             <TouchableOpacity
               onPress={() => {
                 navigation.navigate("SignIn");
@@ -180,7 +190,6 @@ export default function SignUpScreen({ setToken }) {
             </TouchableOpacity>
           </View>
         </View>
-        {/* </ScrollView> */}
       </View>
     </KeyboardAwareScrollView>
   );

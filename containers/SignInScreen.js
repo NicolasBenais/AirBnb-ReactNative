@@ -1,18 +1,20 @@
-import { useNavigation } from "@react-navigation/core";
-import { useState } from "react";
-import Constants from "expo-constants";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-
 import { Text, TextInput, View, TouchableOpacity, Image } from "react-native";
-import { AntDesign } from "@expo/vector-icons";
-import axios from "axios";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { useNavigation } from "@react-navigation/core";
 import { StatusBar } from "expo-status-bar";
+import { AntDesign } from "@expo/vector-icons";
+import Constants from "expo-constants";
 
+import axios from "axios";
+import { useState } from "react";
+
+// STYLE
 import styles from "../Styles/SignUpStyle";
 
 export default function SignInScreen({ setToken }) {
   const navigation = useNavigation();
 
+  // FORM STATES
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [fieldsError, setFieldsError] = useState("");
@@ -32,7 +34,7 @@ export default function SignInScreen({ setToken }) {
             password,
           }
         );
-        console.log("response:", response.data);
+
         setToken(response.token);
       } catch (error) {
         if (error.message === "Request failed with status code 401") {
@@ -44,6 +46,7 @@ export default function SignInScreen({ setToken }) {
   };
 
   return (
+    // GENERAL CONTAINER
     <KeyboardAwareScrollView
       contentContainerStyle={{ flex: 1 }}
       style={{
@@ -51,14 +54,19 @@ export default function SignInScreen({ setToken }) {
       }}
     >
       <StatusBar style="dark" />
+
       <View style={{ flex: 1 }}>
+        {/* MAIN CONTAINER */}
         <View style={styles.container}>
+          {/* HEADER */}
           <View style={styles.header}>
             <Image style={styles.logo} source={require("../assets/logo.png")} />
             <Text style={styles.h1}>Sign In</Text>
           </View>
 
+          {/* FORM */}
           <View style={styles.form}>
+            {/* Email input */}
             <TextInput
               style={styles.input}
               placeholder="email"
@@ -69,6 +77,8 @@ export default function SignInScreen({ setToken }) {
                 setEmail(text);
               }}
             />
+
+            {/* Password input */}
             <View style={styles.passwordView}>
               <TextInput
                 style={styles.input}
@@ -91,8 +101,12 @@ export default function SignInScreen({ setToken }) {
               />
             </View>
           </View>
+
+          {/* BOTTOM CONTAINER */}
           <View style={styles.bottomContainer}>
+            {/* Error messages */}
             <Text style={styles.errorMessage}>{fieldsError}</Text>
+            {/* Submit button */}
             <TouchableOpacity
               style={styles.submitButton}
               title="Sign in"
@@ -100,6 +114,7 @@ export default function SignInScreen({ setToken }) {
             >
               <Text style={styles.textButton}>Sign In</Text>
             </TouchableOpacity>
+            {/* To navigate to the signup screen */}
             <TouchableOpacity
               onPress={() => {
                 navigation.navigate("SignUp");
