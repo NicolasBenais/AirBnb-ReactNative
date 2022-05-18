@@ -1,4 +1,3 @@
-import { useNavigation } from "@react-navigation/core";
 import {
   Text,
   View,
@@ -7,12 +6,13 @@ import {
   Image,
   TouchableOpacity,
 } from "react-native";
-import React, { useState, useEffect } from "react";
+import { useNavigation } from "@react-navigation/core";
+import { useState, useEffect } from "react";
 import axios from "axios";
 
-import { AntDesign } from "@expo/vector-icons";
-
+// COMPONENTS
 import Rate from "../components/Rate";
+import IsLoading from "../components/IsLoading";
 
 // STYLE
 import styles from "../Styles/Home";
@@ -20,6 +20,7 @@ import styles from "../Styles/Home";
 export default function HomeScreen() {
   const navigation = useNavigation();
 
+  const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState(null);
 
   useEffect(() => {
@@ -29,6 +30,7 @@ export default function HomeScreen() {
           "https://express-airbnb-api.herokuapp.com/rooms"
         );
         setData(response.data);
+        setIsLoading(false);
       } catch (error) {
         console.log(error.response.data);
       }
@@ -36,7 +38,11 @@ export default function HomeScreen() {
     fetchData();
   }, []);
 
-  return (
+  return isLoading ? (
+    // LOADING STATE
+    <IsLoading />
+  ) : (
+    // GENERAL CONTAINER
     <View style={styles.main}>
       <StatusBar style="dark" />
 
@@ -51,6 +57,7 @@ export default function HomeScreen() {
                 navigation.navigate("Ad", { adId: item._id });
               }}
             >
+              {/* MAIN PICTURE AND PRICE */}
               <View style={styles.topContainer}>
                 <Image
                   style={styles.containerImg}
@@ -58,11 +65,15 @@ export default function HomeScreen() {
                 />
                 <Text style={styles.price}>{item.price} €</Text>
               </View>
+
+              {/* BOTTOM'S CONTAINER */}
               <View style={styles.bottomContainer}>
                 <View style={styles.bottomLeftContainer}>
+                  {/* Title */}
                   <Text numberOfLines={1} style={styles.titleContainer}>
                     {item.title}
                   </Text>
+                  {/* Rates container */}
                   <View style={styles.rates}>
                     <View style={styles.starsRates}>
                       <Rate data={item} />
@@ -70,6 +81,7 @@ export default function HomeScreen() {
                     <Text style={styles.reviews}>{item.reviews} reviews</Text>
                   </View>
                 </View>
+                {/* Avatar's owner */}
                 <Image
                   style={styles.userPhoto}
                   source={{ uri: item.user.account.photo.url }}

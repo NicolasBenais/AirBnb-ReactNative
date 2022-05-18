@@ -110,6 +110,7 @@ export default function App() {
                       <Stack.Screen
                         name="Ad"
                         options={{
+                          headerBackTitleVisible: "false",
                           headerTitle: (props) => <LogoTitle {...props} />,
                         }}
                       >

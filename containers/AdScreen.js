@@ -1,16 +1,22 @@
+import {
+  Text,
+  View,
+  ScrollView,
+  Image,
+  Dimensions,
+  StatusBar,
+} from "react-native";
 import { useRoute } from "@react-navigation/core";
-import { Text, View, ScrollView, Image, Dimensions } from "react-native";
 import { SwiperFlatList } from "react-native-swiper-flatlist";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-import { AntDesign } from "@expo/vector-icons";
-
+// COMPONENTS
 import Rate from "../components/Rate";
+import IsLoading from "../components/IsLoading";
 
 // STYLE
 import styles from "../Styles/Ad";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function AdScreen() {
   const { params } = useRoute();
@@ -35,9 +41,14 @@ export default function AdScreen() {
   }, [params]);
 
   return isLoading ? (
-    <Text>Loading...</Text>
+    // LOADING STATE
+    <IsLoading />
   ) : (
+    // GENERAL CONTAINER
     <ScrollView style={styles.container}>
+      <StatusBar style="dark" />
+
+      {/* CAROUSEL */}
       <View>
         <SwiperFlatList
           style={{ position: "relative" }}
@@ -57,12 +68,17 @@ export default function AdScreen() {
         />
         <Text style={styles.price}>{data.price} €</Text>
       </View>
+
+      {/* INFORMATIONS CONTAINER */}
       <View style={styles.informations}>
+        {/* INFORMATIONS UNDER THE CAROUSEL */}
         <View style={styles.bottomContainer}>
           <View style={styles.bottomLeftContainer}>
+            {/* Title */}
             <Text numberOfLines={1} style={styles.title}>
               {data.title}
             </Text>
+            {/* Rates container */}
             <View style={styles.rates}>
               <View style={styles.starsRates}>
                 <Rate data={data} />
@@ -70,11 +86,13 @@ export default function AdScreen() {
               <Text style={styles.reviews}>{data.reviews} reviews</Text>
             </View>
           </View>
+          {/* Avatar's owner */}
           <Image
             style={styles.userPhoto}
             source={{ uri: data.user.account.photo.url }}
           />
         </View>
+        {/* Description's ad */}
         <Text style={styles.description} numberOfLines={3}>
           {data.description}
         </Text>

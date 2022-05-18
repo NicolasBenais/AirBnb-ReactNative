@@ -4,7 +4,7 @@ import { AntDesign } from "@expo/vector-icons";
 
 const Rate = (props) => {
   const { ratingValue } = props.data;
-  console.log(ratingValue);
+
   let stars = [];
 
   for (let i = 0; i < 5; i++) {

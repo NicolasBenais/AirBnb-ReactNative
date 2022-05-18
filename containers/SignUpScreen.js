@@ -3,8 +3,6 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import { useNavigation } from "@react-navigation/core";
 import { StatusBar } from "expo-status-bar";
 import { AntDesign } from "@expo/vector-icons";
-import Constants from "expo-constants";
-
 import axios from "axios";
 import { useState } from "react";
 
