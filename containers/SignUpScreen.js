@@ -14,7 +14,7 @@ import styles from "../Styles/SignUpStyle";
 export default function SignUpScreen({ setToken }) {
   const navigation = useNavigation();
 
-  // FORM STATE
+  // FORM STATES
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [description, setDescription] = useState("");
