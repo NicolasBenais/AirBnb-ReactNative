@@ -9,9 +9,9 @@ const Rate = (props) => {
 
   for (let i = 0; i < 5; i++) {
     if (i < ratingValue) {
-      stars.push(<AntDesign name="star" size={16} color="gold" />);
+      stars.push(<AntDesign key={i} name="star" size={16} color="gold" />);
     } else {
-      stars.push(<AntDesign name="star" size={16} color="lightgrey" />);
+      stars.push(<AntDesign key={i} name="star" size={16} color="lightgrey" />);
     }
   }
 

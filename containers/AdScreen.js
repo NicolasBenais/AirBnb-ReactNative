@@ -5,10 +5,12 @@ import {
   Image,
   Dimensions,
   StatusBar,
+  TouchableOpacity,
 } from "react-native";
 import { useRoute } from "@react-navigation/core";
 import { SwiperFlatList } from "react-native-swiper-flatlist";
 import React, { useState, useEffect } from "react";
+import MapView, { Marker } from "react-native-maps";
 import axios from "axios";
 
 // COMPONENTS
@@ -23,7 +25,7 @@ export default function AdScreen() {
 
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState(null);
-
+  const [showText, setShowText] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -54,6 +56,7 @@ export default function AdScreen() {
           style={{ position: "relative" }}
           showPagination
           data={data.photos}
+          // keyExtractor={(elem) => elem._id} NE FONCTIONNE PAS
           renderItem={({ item }) => (
             <View>
               <Image
@@ -93,10 +96,32 @@ export default function AdScreen() {
           />
         </View>
         {/* Description's ad */}
-        <Text style={styles.description} numberOfLines={3}>
-          {data.description}
-        </Text>
+        <TouchableOpacity
+          onPress={() => {
+            setShowText(!showText);
+          }}
+        >
+          <Text style={styles.description} numberOfLines={showText ? null : 3}>
+            {data.description}
+          </Text>
+        </TouchableOpacity>
       </View>
+      <MapView
+        style={{ height: 300, width: Dimensions.get("window").width }}
+        initialRegion={{
+          longitude: data.location[0],
+          latitude: data.location[1],
+          longitudeDelta: 0.1,
+          latitudeDelta: 0.1,
+        }}
+      >
+        <MapView.Marker
+          coordinate={{
+            longitude: data.location[0],
+            latitude: data.location[1],
+          }}
+        />
+      </MapView>
     </ScrollView>
   );
 }

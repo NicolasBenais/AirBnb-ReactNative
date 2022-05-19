@@ -49,6 +49,7 @@ export default function HomeScreen() {
       <FlatList
         showsVerticalScrollIndicator={false}
         data={data}
+        keyExtractor={(elem) => elem._id}
         renderItem={({ item }) => {
           return (
             <TouchableOpacity

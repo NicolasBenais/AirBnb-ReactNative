@@ -5,12 +5,11 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 import HomeScreen from "./containers/HomeScreen";
-import ProfileScreen from "./containers/ProfileScreen";
 import SignInScreen from "./containers/SignInScreen";
 import SignUpScreen from "./containers/SignUpScreen";
 import SettingsScreen from "./containers/SettingsScreen";
-import SplashScreen from "./containers/SplashScreen";
 import AdScreen from "./containers/AdScreen";
+import AroundMe from "./containers/AroundMe";
 import { Image } from "react-native";
 
 const Tab = createBottomTabNavigator();
@@ -110,21 +109,39 @@ export default function App() {
                       <Stack.Screen
                         name="Ad"
                         options={{
-                          headerBackTitleVisible: "false",
                           headerTitle: (props) => <LogoTitle {...props} />,
                         }}
                       >
                         {() => <AdScreen />}
                       </Stack.Screen>
+                    </Stack.Navigator>
+                  )}
+                </Tab.Screen>
 
-                      {/* PROFILE SCREEN */}
+                {/* AROUND ME TAB */}
+                <Tab.Screen
+                  name="TabArounMe"
+                  options={{
+                    tabBarLabel: "Around me",
+                    tabBarIcon: ({ color, size }) => (
+                      <Ionicons
+                        name="location-outline"
+                        size={size}
+                        color={color}
+                      />
+                    ),
+                  }}
+                >
+                  {() => (
+                    <Stack.Navigator>
+                      {/* AROUND ME SCREEN */}
                       <Stack.Screen
-                        name="Profile"
+                        name="AroundMe"
                         options={{
-                          title: "User Profile",
+                          headerTitle: (props) => <LogoTitle {...props} />,
                         }}
                       >
-                        {() => <ProfileScreen />}
+                        {() => <AroundMe />}
                       </Stack.Screen>
                     </Stack.Navigator>
                   )}

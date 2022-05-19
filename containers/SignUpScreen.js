@@ -48,7 +48,7 @@ export default function SignUpScreen({ setToken }) {
           }
         );
 
-        setToken(response.token);
+        setToken(response.data.token);
       } catch (error) {
         if (error.message === "Request failed with status code 401") {
           setFieldsError("Email or password incorrect");
