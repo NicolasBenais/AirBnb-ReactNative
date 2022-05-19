@@ -12,6 +12,7 @@ export default function AroundMe() {
 
   //   User locations
   const [userCoords, setUserCoords] = useState(null);
+  const [error, setError] = useState();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -42,6 +43,8 @@ export default function AroundMe() {
           };
           setUserCoords(obj);
           setIsLoadingUserLocation(false);
+        } else {
+          setError(true);
         }
       } catch (error) {
         console.log(error.response.message);
@@ -56,8 +59,8 @@ export default function AroundMe() {
     <MapView
       style={{ flex: 1 }}
       initialRegion={{
-        latitude: 48.856614,
-        longitude: 2.3522219,
+        latitude: userCoords.latitude,
+        longitude: userCoords.longitude,
         latitudeDelta: 0.2,
         longitudeDelta: 0.2,
       }}
