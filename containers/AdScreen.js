@@ -106,6 +106,8 @@ export default function AdScreen() {
           </Text>
         </TouchableOpacity>
       </View>
+
+      {/* Map View */}
       <MapView
         style={{ height: 300, width: Dimensions.get("window").width }}
         initialRegion={{

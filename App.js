@@ -7,7 +7,7 @@ import { Ionicons } from "@expo/vector-icons";
 import HomeScreen from "./containers/HomeScreen";
 import SignInScreen from "./containers/SignInScreen";
 import SignUpScreen from "./containers/SignUpScreen";
-import SettingsScreen from "./containers/SettingsScreen";
+import ProfileScreen from "./containers/ProfileScreen";
 import AdScreen from "./containers/AdScreen";
 import AroundMe from "./containers/AroundMe";
 import { Image } from "react-native";
@@ -27,6 +27,7 @@ const LogoTitle = () => {
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [userToken, setUserToken] = useState(null);
+  const [userId, setUserID] = useState(null);
 
   const setToken = async (token) => {
     if (token) {
@@ -66,10 +67,10 @@ export default function App() {
           // No token found, user isn't signed in
           <>
             <Stack.Screen name="SignIn">
-              {() => <SignInScreen setToken={setToken} />}
+              {() => <SignInScreen setToken={setToken} setUserId={setUserID} />}
             </Stack.Screen>
             <Stack.Screen name="SignUp">
-              {() => <SignUpScreen setToken={setToken} />}
+              {() => <SignUpScreen setToken={setToken} setUserId={setUserID} />}
             </Stack.Screen>
           </>
         ) : (
@@ -147,11 +148,11 @@ export default function App() {
                   )}
                 </Tab.Screen>
 
-                {/* SETTINGS TAB */}
+                {/* PROFILE TAB */}
                 <Tab.Screen
-                  name="TabSettings"
+                  name="TabProfile"
                   options={{
-                    tabBarLabel: "Settings",
+                    tabBarLabel: "Profile",
                     tabBarIcon: ({ color, size }) => (
                       <Ionicons
                         name={"ios-options"}
@@ -164,12 +165,19 @@ export default function App() {
                   {() => (
                     <Stack.Navigator>
                       <Stack.Screen
-                        name="Settings"
+                        name="Profile"
                         options={{
-                          title: "Settings",
+                          headerTitle: (props) => <LogoTitle {...props} />,
                         }}
                       >
-                        {() => <SettingsScreen setToken={setToken} />}
+                        {() => (
+                          <ProfileScreen
+                            setToken={setToken}
+                            userId={userId}
+                            setUserId={setUserID}
+                            userToken={userToken}
+                          />
+                        )}
                       </Stack.Screen>
                     </Stack.Navigator>
                   )}
