@@ -17,12 +17,12 @@ export default function ProfileScreen({ setToken, userId, setId, userToken }) {
   const [profileImg, setProfileImg] = useState(null);
 
   const [selectedPicture, setSelectedPicture] = useState();
-  const [imageSending, setImageSending] = useState(false);
   const [sending, setSending] = useState(false);
+  const [sendingPicture, setSendingPicture] = useState(false);
 
-  const [isInfosUpdated, setisInfosUpdated] = useState(false);
   const [isPictureUpdated, setIsPictureUpdated] = useState(false);
 
+  // Get user's informations
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -40,7 +40,6 @@ export default function ProfileScreen({ setToken, userId, setId, userToken }) {
         if (response.data.photo) {
           setProfileImg(response.data.photo);
         }
-
         setIsLoading(false);
       } catch (error) {
         console.log(error.data);
@@ -49,47 +48,40 @@ export default function ProfileScreen({ setToken, userId, setId, userToken }) {
     fetchData();
   }, []);
 
+  // Get persmission to acced to the library
   const getPermissionAndOpenLibrary = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (status === "granted") {
       const result = await ImagePicker.launchImageLibraryAsync();
       if (result.cancelled === false) {
         setSelectedPicture(result.uri);
+        setProfileImg(result.uri);
       }
       if (!isPictureUpdated) {
         setIsPictureUpdated(true);
       }
-    } else {
-      console.log("Permission refusée");
     }
   };
 
+  // Get permission to acced to the camera and to take a picture
   const getPermissionAndTakePicture = async () => {
     const { status } = await ImagePicker.requestCameraPermissionsAsync();
     if (status === "granted") {
       const result = await ImagePicker.launchCameraAsync();
       if (result.cancelled === false) {
         setSelectedPicture(result.uri);
+        setProfileImg(result.uri);
       }
       if (!isPictureUpdated) {
         setIsPictureUpdated(true);
       }
-    } else {
-      console.log("Persmission refusée");
     }
   };
 
-  const updateInfos = async () => {
-    if (isInfosUpdated || isPictureUpdated) {
-      setIsLoading(true);
-      if (isPictureUpdated) {
-      }
-    }
-  };
-
+  // To send the new profile picture
   const sendPicture = async () => {
     try {
-      setImageSending(true);
+      setSendingPicture(true);
       const tab = selectedPicture.split(".");
       const extension = tab[tab.length - 1];
       const formData = new FormData();
@@ -109,20 +101,38 @@ export default function ProfileScreen({ setToken, userId, setId, userToken }) {
         }
       );
       setProfileImg(response.data.photo);
-      setImageSending(false);
+      setSendingPicture(false);
+      setIsPictureUpdated(false);
+      alert("Your profile has been updated !");
     } catch (error) {
       console.log(error.message);
     }
   };
 
+  // To send the news informations
   const editUser = async () => {
     try {
-      setImageSending(true);
-      const formData = new FormData();
-      formData.append("");
+      setSending(true);
+      const obj = {};
+      obj.email = email;
+      obj.username = username;
+      obj.description = description;
+
       const response = await axios.put(
-        "https://express-airbnb-api.herokuapp.com/user/update"
+        "https://express-airbnb-api.herokuapp.com/user/update",
+        obj,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${userToken}`,
+          },
+        }
       );
+      setEmail(response.data.email);
+      setUsername(response.data.username);
+      setDescription(response.data.description);
+      setSending(false);
+      alert("Your profile has been updated.");
     } catch (error) {
       console.log(error.message);
     }
@@ -137,29 +147,48 @@ export default function ProfileScreen({ setToken, userId, setId, userToken }) {
     >
       <View style={styles.body}>
         <View style={styles.topContainer}>
-          {profileImg ? (
-            <Image style={styles.profileImg} source={{ uri: profileImg.url }} />
-          ) : (
-            <Image
-              style={styles.profileImg}
-              source={require("../assets/blank_profil.png")}
-            />
-          )}
-          <View style={styles.rightTopContainer}>
-            <Ionicons
-              style={{ marginBottom: 32 }}
-              name="image"
-              size={32}
-              color="grey"
-              onPress={getPermissionAndOpenLibrary}
-            />
-            <Ionicons
-              name="camera"
-              size={32}
-              color="grey"
-              onPress={getPermissionAndTakePicture}
-            />
+          <View style={{ flexDirection: "row", marginBottom: 8 }}>
+            {profileImg ? (
+              <Image
+                style={styles.profileImg}
+                source={{ uri: profileImg.url }}
+              />
+            ) : (
+              <Image
+                style={styles.profileImg}
+                source={require("../assets/blank_profil.png")}
+              />
+            )}
+            <View style={styles.rightTopContainer}>
+              <Ionicons
+                style={{ marginBottom: 32 }}
+                name="image"
+                size={32}
+                color="grey"
+                onPress={getPermissionAndOpenLibrary}
+              />
+              <Ionicons
+                name="camera"
+                size={32}
+                color="grey"
+                onPress={getPermissionAndTakePicture}
+              />
+            </View>
           </View>
+          {isPictureUpdated && (
+            <TouchableOpacity
+              style={styles.submitButtonPicture}
+              onPress={sendPicture}
+            >
+              {sendingPicture ? (
+                <Text style={{ color: "lightgrey" }}>
+                  Updating your profile pic.
+                </Text>
+              ) : (
+                <Text style={{ color: "grey" }}>Update your profile pic.</Text>
+              )}
+            </TouchableOpacity>
+          )}
         </View>
 
         <View style={styles.form}>
@@ -200,9 +229,9 @@ export default function ProfileScreen({ setToken, userId, setId, userToken }) {
             }}
           />
         </View>
-        <TouchableOpacity style={styles.submitButton} onPress={sendPicture}>
-          {imageSending ? (
-            <IsLoading />
+        <TouchableOpacity style={styles.submitButton} onPress={editUser}>
+          {sending ? (
+            <Text style={styles.textButtonSending}>Updating</Text>
           ) : (
             <Text style={styles.textButton}>Update</Text>
           )}
@@ -220,7 +249,3 @@ export default function ProfileScreen({ setToken, userId, setId, userToken }) {
     </KeyboardAwareScrollView>
   );
 }
-
-// onPress={() => {
-//   setToken(null);
-//   setUserId(null);

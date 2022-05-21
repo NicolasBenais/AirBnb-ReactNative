@@ -32,7 +32,6 @@ export default function SignInScreen({ setToken, setId }) {
             password,
           }
         );
-        console.log(response.data.id);
         setToken(response.data.token);
         setId(response.data.id);
       } catch (error) {

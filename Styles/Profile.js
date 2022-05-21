@@ -10,7 +10,7 @@ const styles = {
   },
 
   topContainer: {
-    flexDirection: "row",
+    // flexDirection: "row",
     alignItems: "center",
   },
 
@@ -51,9 +51,23 @@ const styles = {
     alignItems: "center",
   },
 
+  submitButtonPicture: {
+    borderColor: "#FF5A5F",
+    borderWidth: 2,
+    padding: 4,
+    borderRadius: 99,
+    width: 200,
+    alignItems: "center",
+  },
+
   textButton: {
     fontSize: 20,
     color: "grey",
+  },
+
+  textButtonSending: {
+    fontSize: 20,
+    color: "lightgrey",
   },
 };
 
