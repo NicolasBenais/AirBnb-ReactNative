@@ -9,7 +9,7 @@ import { useState } from "react";
 // STYLE
 import styles from "../Styles/SignUpStyle";
 
-export default function SignUpScreen({ setToken }) {
+export default function SignUpScreen({ setToken, setId }) {
   const navigation = useNavigation();
 
   // FORM STATES
@@ -49,6 +49,7 @@ export default function SignUpScreen({ setToken }) {
         );
 
         setToken(response.data.token);
+        setId(response.data.id);
       } catch (error) {
         if (error.message === "Request failed with status code 401") {
           setFieldsError("Email or password incorrect");
@@ -107,7 +108,7 @@ export default function SignUpScreen({ setToken }) {
               style={{
                 borderWidth: 2,
                 marginBottom: 32,
-                borderColor: "#FF5A5F",
+                borderColor: "#FFBAC0",
                 height: 80,
                 padding: 8,
                 textAlignVertical: "top",

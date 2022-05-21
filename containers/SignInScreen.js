@@ -9,7 +9,7 @@ import { useState } from "react";
 // STYLE
 import styles from "../Styles/SignUpStyle";
 
-export default function SignInScreen({ setToken, setUserId }) {
+export default function SignInScreen({ setToken, setId }) {
   const navigation = useNavigation();
 
   // FORM STATES
@@ -32,9 +32,9 @@ export default function SignInScreen({ setToken, setUserId }) {
             password,
           }
         );
-        console.log(response.data);
+        console.log(response.data.id);
         setToken(response.data.token);
-        setUserId(response.data.id);
+        setId(response.data.id);
       } catch (error) {
         if (error.message === "Request failed with status code 401") {
           setFieldsError("Email or password incorrect");
